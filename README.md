@@ -20,7 +20,7 @@ It represents my learning journey, skills, and projects as a Computer Science st
 
 This portfolio is **actively maintained and updated**.  
 I regularly improve the design, add new projects, and enhance features  
-as I continue learning and growing — whether **daily or monthly**.
+as I continue learning and growing whether **daily or monthly**.
 
 
 ## Tech Stack
