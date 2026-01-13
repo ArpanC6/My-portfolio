@@ -5,6 +5,22 @@ const bankImages = [
     'Bank/Screenshot (761).png'
 ];
 
+const bank1Images = [
+    'Bank1/diagram-export-13-1-2026-11_32_50-am.png',
+    'Bank1/Screenshot (1122).png',
+    'Bank1/Screenshot (1123).png',
+    'Bank1/Screenshot (1124).png',
+    'Bank1/Screenshot (1104).png',
+    'Bank1/Screenshot (1125).png',
+    'Bank1/Screenshot (1126).png',
+    'Bank1/Screenshot (906).png',
+    'Bank1/Screenshot (907).png',
+    'Bank1/Screenshot (908).png',
+    'Bank1/Screenshot (910).png',
+    'Bank1/Screenshot (1102).png',
+    'Bank1/Screenshot (1103).png'
+];
+
 const studentImages = [
     'Student/1767539595151.jpg',
     'Student/1767513442402.jpg',
@@ -71,7 +87,9 @@ function updateLightboxImage() {
     counter.textContent = `${currentImageIndex + 1} / ${currentImages.length}`;
     
     if (currentProject === 'bank') {
-        title.textContent = 'Bank Management System - Screenshot ' + (currentImageIndex + 1);
+        title.textContent = 'Bank Management System (Original) - Screenshot ' + (currentImageIndex + 1);
+    } else if (currentProject === 'bank1') {
+        title.textContent = 'Bank Management System (Upgraded) - Screenshot ' + (currentImageIndex + 1);
     } else if (currentProject === 'student') {
         title.textContent = 'Student Management System - Screenshot ' + (currentImageIndex + 1);
     } else if (currentProject === 'employee') {
@@ -88,6 +106,8 @@ window.addEventListener('DOMContentLoaded', function() {
             
             if (currentProject === 'bank') {
                 currentImages = bankImages;
+            } else if (currentProject === 'bank1') {
+                currentImages = bank1Images;
             } else if (currentProject === 'student') {
                 currentImages = studentImages;
             } else if (currentProject === 'employee') {
@@ -98,7 +118,7 @@ window.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Also allow clicking hero image to open first thumbnail gallery
+    // Setup hero image click for other projects
     document.querySelectorAll('.project-hero-image').forEach(hero => {
         hero.addEventListener('click', function() {
             const firstThumb = this.closest('.project-card').querySelector('.thumbnail-item');
@@ -107,13 +127,18 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 
     // Lightbox buttons
-    document.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
-    document.querySelector('.lightbox-prev').addEventListener('click', () => changeLightboxImage(-1));
-    document.querySelector('.lightbox-next').addEventListener('click', () => changeLightboxImage(1));
+    const closeBtn = document.querySelector('.lightbox-close');
+    const prevBtn = document.querySelector('.lightbox-prev');
+    const nextBtn = document.querySelector('.lightbox-next');
+    
+    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+    if (prevBtn) prevBtn.addEventListener('click', () => changeLightboxImage(-1));
+    if (nextBtn) nextBtn.addEventListener('click', () => changeLightboxImage(1));
 
     // Keyboard navigation
     document.addEventListener('keydown', function(e) {
-        if (document.getElementById('lightbox').style.display === 'flex') {
+        const lightbox = document.getElementById('lightbox');
+        if (lightbox && lightbox.style.display === 'flex') {
             if (e.key === 'Escape') closeLightbox();
             if (e.key === 'ArrowLeft') changeLightboxImage(-1);
             if (e.key === 'ArrowRight') changeLightboxImage(1);
@@ -121,35 +146,62 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 
     // Close on background click
-    document.getElementById('lightbox').addEventListener('click', function(e) {
-        if (e.target === this) closeLightbox();
-    });
+    const lightbox = document.getElementById('lightbox');
+    if (lightbox) {
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === this) closeLightbox();
+        });
+    }
 
     // Hamburger menu
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
-    hamburger.addEventListener('click', () => navMenu.classList.toggle('active'));
+    if (hamburger && navMenu) {
+        hamburger.addEventListener('click', () => navMenu.classList.toggle('active'));
+    }
 
     // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+                if (navMenu) navMenu.classList.remove('active');
+            }
         });
     });
 
     // Contact form
-    document.querySelector('.contact-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        alert('Thank you for your message! I will get back to you soon.');
-        this.reset();
-    });
+    const contactForm = document.querySelector('.contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! I will get back to you soon.');
+            this.reset();
+        });
+    }
 
     // Preload images
-    [...bankImages, ...studentImages, ...employeeImages].forEach(src => {
+    [...bankImages, ...bank1Images, ...studentImages, ...employeeImages].forEach(src => {
         const img = new Image();
         img.src = src;
     });
+
+    console.log('%c Portfolio Website Loaded Successfully!', 'color: #00f0ff; font-size: 20px; font-weight: bold;');
+    console.log('%c Bank: 3 original + 13 upgraded screenshots', 'color: #ffd700; font-size: 14px;');
 });
 
-console.log('%c Portfolio Website Loaded Successfully!', 'color: #00f0ff; font-size: 20px; font-weight: bold;');
+// Big preview click functionality
+document.querySelectorAll('.big-thumbnail-preview').forEach(item => {
+    item.addEventListener('click', function() {
+        currentProject = this.dataset.project;
+        currentImageIndex = parseInt(this.dataset.index);
+        
+        if (currentProject === 'bank1') {
+            currentImages = bank1Images;
+        }
+        
+        openLightbox();
+    });
+});
