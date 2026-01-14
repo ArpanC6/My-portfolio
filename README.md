@@ -9,11 +9,11 @@ It represents my learning journey, skills, and projects as a Computer Science st
 
 ## Highlights
 
-- Clean and responsive user interface
-- Smooth animations and interactions
-- Dedicated section to showcase projects
-- Optimized for performance and readability
-- Deployed using Netlify with GitHub integration
+1) Clean and responsive user interface
+2) Smooth animations and interactions
+3) Dedicated section to showcase projects
+4) Optimized for performance and readability
+5) Deployed using Netlify with GitHub integration
 
 
 ## Continuous Updates
@@ -25,9 +25,9 @@ as I continue learning and growing whether **daily or monthly**.
 
 ## Tech Stack
 
-- HTML5  
-- CSS3  
-- JavaScript  
+1) HTML5  
+2) CSS3  
+3) JavaScript  
 
 
 ## Deployment
