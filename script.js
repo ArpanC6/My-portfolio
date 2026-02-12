@@ -43,6 +43,18 @@ const employeeImages = [
     'Employee/Screenshot (833).png'
 ];
 
+// NEW: Hackathon images array
+const hackathonImages = [
+    'Hackathon/WhatsApp Image 2026-02-11 at 10.29.29 AM.jpeg',
+    'Hackathon/WhatsApp Image 2026-02-11 at 10.29.29 AM1.jpeg',
+    'Hackathon/WhatsApp Image 2026-02-11 at 10.29.30 AM.jpeg',
+    'Hackathon/WhatsApp Image 2026-02-11 at 10.29.31 AM.jpeg',
+    'Hackathon/WhatsApp Image 2026-02-11 at 12.22.54 PM.jpeg',
+    'Hackathon/WhatsApp Image 2026-02-11 at 12.22.54 PM1.jpeg',
+    'Hackathon/WhatsApp Image 2026-02-11 at 12.22.55  PM.jpeg',
+    'Hackathon/WhatsApp Image 2026-02-11 at 12.22.55 PM.jpeg'
+];
+
 // Global variables for lightbox state
 let currentProject = '';
 let currentImageIndex = 0;
@@ -86,6 +98,7 @@ function updateLightboxImage() {
     img.src = currentImages[currentImageIndex];
     counter.textContent = `${currentImageIndex + 1} / ${currentImages.length}`;
     
+    // Updated title logic with hackathon support
     if (currentProject === 'bank') {
         title.textContent = 'Bank Management System (Original) - Screenshot ' + (currentImageIndex + 1);
     } else if (currentProject === 'bank1') {
@@ -94,12 +107,24 @@ function updateLightboxImage() {
         title.textContent = 'Student Management System - Screenshot ' + (currentImageIndex + 1);
     } else if (currentProject === 'employee') {
         title.textContent = 'Employee Management System - Screenshot ' + (currentImageIndex + 1);
+    } else if (currentProject === 'hackathon') {
+        const titles = [
+            'Participation Certificate',
+            '2nd Position Certificate',
+            'Prize Certificate (₹15,000)',
+            'Trophy',
+            'Team Celebration',
+            'With Judges - Photo 1',
+            'With Judges - Photo 2',
+            'With Judges - Photo 3'
+        ];
+        title.textContent = 'HyperSpace Hackathon 2026 - ' + titles[currentImageIndex];
     }
 }
 
 window.addEventListener('DOMContentLoaded', function() {
-    // Setup thumbnail click events
-    document.querySelectorAll('.thumbnail-item').forEach(item => {
+    // Setup thumbnail click events (for all projects including hackathon)
+    document.querySelectorAll('.thumbnail-item, .hackathon-thumb-item').forEach(item => {
         item.addEventListener('click', function() {
             currentProject = this.dataset.project;
             currentImageIndex = parseInt(this.dataset.index);
@@ -112,6 +137,8 @@ window.addEventListener('DOMContentLoaded', function() {
                 currentImages = studentImages;
             } else if (currentProject === 'employee') {
                 currentImages = employeeImages;
+            } else if (currentProject === 'hackathon') {
+                currentImages = hackathonImages;
             }
             
             openLightbox();
@@ -123,6 +150,20 @@ window.addEventListener('DOMContentLoaded', function() {
         hero.addEventListener('click', function() {
             const firstThumb = this.closest('.project-card').querySelector('.thumbnail-item');
             if (firstThumb) firstThumb.click();
+        });
+    });
+
+    // Big preview click functionality
+    document.querySelectorAll('.big-thumbnail-preview').forEach(item => {
+        item.addEventListener('click', function() {
+            currentProject = this.dataset.project;
+            currentImageIndex = parseInt(this.dataset.index);
+            
+            if (currentProject === 'bank1') {
+                currentImages = bank1Images;
+            }
+            
+            openLightbox();
         });
     });
 
@@ -182,26 +223,13 @@ window.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Preload images
-    [...bankImages, ...bank1Images, ...studentImages, ...employeeImages].forEach(src => {
+    // Preload images (including hackathon images)
+    [...bankImages, ...bank1Images, ...studentImages, ...employeeImages, ...hackathonImages].forEach(src => {
         const img = new Image();
         img.src = src;
     });
 
     console.log('%c Portfolio Website Loaded Successfully!', 'color: #00f0ff; font-size: 20px; font-weight: bold;');
     console.log('%c Bank: 3 original + 13 upgraded screenshots', 'color: #ffd700; font-size: 14px;');
-});
-
-// Big preview click functionality
-document.querySelectorAll('.big-thumbnail-preview').forEach(item => {
-    item.addEventListener('click', function() {
-        currentProject = this.dataset.project;
-        currentImageIndex = parseInt(this.dataset.index);
-        
-        if (currentProject === 'bank1') {
-            currentImages = bank1Images;
-        }
-        
-        openLightbox();
-    });
+    console.log('%c Hackathon: 8 achievement photos', 'color: #ffd700; font-size: 14px;');
 });
