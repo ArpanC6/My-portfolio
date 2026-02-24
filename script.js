@@ -1,4 +1,3 @@
-// Image arrays for different projects
 const bankImages = [
     'Bank/WhatsApp Image 2026-01-04 at 17.55.38 - Copy.jpeg',
     'Bank/Screenshot (760).png',
@@ -43,7 +42,6 @@ const employeeImages = [
     'Employee/Screenshot (833).png'
 ];
 
-// NEW: Hackathon images array
 const hackathonImages = [
     'Hackathon/WhatsApp Image 2026-02-11 at 10.29.29 AM.jpeg',
     'Hackathon/WhatsApp Image 2026-02-11 at 10.29.29 AM1.jpeg',
@@ -55,12 +53,24 @@ const hackathonImages = [
     'Hackathon/WhatsApp Image 2026-02-11 at 12.22.55 PM.jpeg'
 ];
 
-// Global variables for lightbox state
+const skillbridgeImages = [
+    'SkillBridge/Screenshot (2230).png',
+    'SkillBridge/Screenshot (2231).png',
+    'SkillBridge/Screenshot (2232).png',
+    'SkillBridge/Screenshot (2233).png',
+    'SkillBridge/Screenshot (2234).png',
+    'SkillBridge/Screenshot (2235).png',
+    'SkillBridge/Screenshot (2236).png',
+    'SkillBridge/Screenshot (2237).png',
+    'SkillBridge/Screenshot (2238).png',
+    'SkillBridge/Screenshot (2239).png',
+    'SkillBridge/f1830fbe-6107-4fdb-b3d8-61c5592c8deb.png'
+];
+
 let currentProject = '';
 let currentImageIndex = 0;
 let currentImages = [];
 
-// Function to open lightbox
 function openLightbox() {
     const lightbox = document.getElementById('lightbox');
     lightbox.style.display = 'flex';
@@ -68,37 +78,31 @@ function openLightbox() {
     updateLightboxImage();
 }
 
-// Function to close lightbox
 function closeLightbox() {
     const lightbox = document.getElementById('lightbox');
     lightbox.style.display = 'none';
     document.body.style.overflow = 'auto';
 }
 
-// Function to change image in lightbox
 function changeLightboxImage(direction) {
     currentImageIndex += direction;
-    
     if (currentImageIndex >= currentImages.length) {
         currentImageIndex = 0;
     }
     if (currentImageIndex < 0) {
         currentImageIndex = currentImages.length - 1;
     }
-    
     updateLightboxImage();
 }
 
-// Function to update lightbox image
 function updateLightboxImage() {
     const img = document.getElementById('lightbox-image');
     const counter = document.getElementById('lightbox-counter');
     const title = document.getElementById('lightbox-title');
-    
+
     img.src = currentImages[currentImageIndex];
     counter.textContent = `${currentImageIndex + 1} / ${currentImages.length}`;
-    
-    // Updated title logic with hackathon support
+
     if (currentProject === 'bank') {
         title.textContent = 'Bank Management System (Original) - Screenshot ' + (currentImageIndex + 1);
     } else if (currentProject === 'bank1') {
@@ -119,16 +123,31 @@ function updateLightboxImage() {
             'With Judges - Photo 3'
         ];
         title.textContent = 'HyperSpace Hackathon 2026 - ' + titles[currentImageIndex];
+    } else if (currentProject === 'skillbridge') {
+    const titles = [
+    'Home Page',
+    'Features Section',
+    'Internship Finder',
+    'Internship Cards',
+    'More Platforms',
+    'Sign In Page',
+    'AI Roadmap Dashboard',
+    'Skill Gap Analysis',
+    'Progress Tracker',
+    'Job Search',
+    'Architecture Diagram'
+];
+        title.textContent = 'SkillBridge — ' + titles[currentImageIndex];
     }
 }
 
 window.addEventListener('DOMContentLoaded', function() {
-    // Setup thumbnail click events (for all projects including hackathon)
+
     document.querySelectorAll('.thumbnail-item, .hackathon-thumb-item').forEach(item => {
         item.addEventListener('click', function() {
             currentProject = this.dataset.project;
             currentImageIndex = parseInt(this.dataset.index);
-            
+
             if (currentProject === 'bank') {
                 currentImages = bankImages;
             } else if (currentProject === 'bank1') {
@@ -139,13 +158,14 @@ window.addEventListener('DOMContentLoaded', function() {
                 currentImages = employeeImages;
             } else if (currentProject === 'hackathon') {
                 currentImages = hackathonImages;
+            } else if (currentProject === 'skillbridge') {
+                currentImages = skillbridgeImages;
             }
-            
+
             openLightbox();
         });
     });
 
-    // Setup hero image click for other projects
     document.querySelectorAll('.project-hero-image').forEach(hero => {
         hero.addEventListener('click', function() {
             const firstThumb = this.closest('.project-card').querySelector('.thumbnail-item');
@@ -153,30 +173,25 @@ window.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Big preview click functionality
     document.querySelectorAll('.big-thumbnail-preview').forEach(item => {
         item.addEventListener('click', function() {
             currentProject = this.dataset.project;
             currentImageIndex = parseInt(this.dataset.index);
-            
             if (currentProject === 'bank1') {
                 currentImages = bank1Images;
             }
-            
             openLightbox();
         });
     });
 
-    // Lightbox buttons
     const closeBtn = document.querySelector('.lightbox-close');
     const prevBtn = document.querySelector('.lightbox-prev');
     const nextBtn = document.querySelector('.lightbox-next');
-    
+
     if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
     if (prevBtn) prevBtn.addEventListener('click', () => changeLightboxImage(-1));
     if (nextBtn) nextBtn.addEventListener('click', () => changeLightboxImage(1));
 
-    // Keyboard navigation
     document.addEventListener('keydown', function(e) {
         const lightbox = document.getElementById('lightbox');
         if (lightbox && lightbox.style.display === 'flex') {
@@ -186,7 +201,6 @@ window.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Close on background click
     const lightbox = document.getElementById('lightbox');
     if (lightbox) {
         lightbox.addEventListener('click', function(e) {
@@ -194,14 +208,12 @@ window.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Hamburger menu
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
     if (hamburger && navMenu) {
         hamburger.addEventListener('click', () => navMenu.classList.toggle('active'));
     }
 
-    // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
@@ -213,7 +225,6 @@ window.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Contact form
     const contactForm = document.querySelector('.contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
@@ -223,13 +234,11 @@ window.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Preload images (including hackathon images)
-    [...bankImages, ...bank1Images, ...studentImages, ...employeeImages, ...hackathonImages].forEach(src => {
+    [...bankImages, ...bank1Images, ...studentImages, ...employeeImages, ...hackathonImages, ...skillbridgeImages].forEach(src => {
         const img = new Image();
         img.src = src;
     });
 
     console.log('%c Portfolio Website Loaded Successfully!', 'color: #00f0ff; font-size: 20px; font-weight: bold;');
-    console.log('%c Bank: 3 original + 13 upgraded screenshots', 'color: #ffd700; font-size: 14px;');
-    console.log('%c Hackathon: 8 achievement photos', 'color: #ffd700; font-size: 14px;');
+    console.log('%c SkillBridge: 12 screenshots added', 'color: #a78bfa; font-size: 14px;');
 });
