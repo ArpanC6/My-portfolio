@@ -195,7 +195,7 @@ window.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('keydown', function(e) {
         const lightbox = document.getElementById('lightbox');
         if (lightbox && lightbox.style.display === 'flex') {
-            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'Escape') { closeLightbox(); closeCertLightbox(); }
             if (e.key === 'ArrowLeft') changeLightboxImage(-1);
             if (e.key === 'ArrowRight') changeLightboxImage(1);
         }
@@ -242,3 +242,12 @@ window.addEventListener('DOMContentLoaded', function() {
     console.log('%c Portfolio Website Loaded Successfully!', 'color: #00f0ff; font-size: 20px; font-weight: bold;');
     console.log('%c SkillBridge: 12 screenshots added', 'color: #a78bfa; font-size: 14px;');
 });
+function openCertLightbox() {
+    document.getElementById('cert-lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeCertLightbox() {
+    document.getElementById('cert-lightbox').classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
